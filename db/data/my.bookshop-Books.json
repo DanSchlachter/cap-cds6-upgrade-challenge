@@ -1,0 +1,41 @@
+[
+  {
+    "ID": "d5b1c6e4-4567-89ab-cdef-012345678901",
+    "title": "Pride and Prejudice",
+    "author_ID": "a8e4f9c1-1234-5678-9abc-def012345678",
+    "genre": "Fiction",
+    "isbn": "978-0-141-03951-8",
+    "price": 12.99,
+    "currency_code": "USD",
+    "stock": 50,
+    "publishedAt": "1813-01-28",
+    "validFrom": "2020-01-01",
+    "validTo": "9999-12-31"
+  },
+  {
+    "ID": "e4a0b5d3-5678-9abc-def0-123456789012",
+    "title": "1984",
+    "author_ID": "b7d3e8b2-2345-6789-abcd-ef0123456789",
+    "genre": "Fiction",
+    "isbn": "978-0-452-28423-4",
+    "price": 14.99,
+    "currency_code": "USD",
+    "stock": 100,
+    "publishedAt": "1949-06-08",
+    "validFrom": "2020-01-01",
+    "validTo": "9999-12-31"
+  },
+  {
+    "ID": "f399a4c2-6789-abcd-ef01-234567890123",
+    "title": "The Old Man and the Sea",
+    "author_ID": "c6c2d7a3-3456-789a-bcde-f01234567890",
+    "genre": "Fiction",
+    "isbn": "978-0-684-80122-3",
+    "price": 11.99,
+    "currency_code": "USD",
+    "stock": 75,
+    "publishedAt": "1952-09-01",
+    "validFrom": "2020-01-01",
+    "validTo": "9999-12-31"
+  }
+]

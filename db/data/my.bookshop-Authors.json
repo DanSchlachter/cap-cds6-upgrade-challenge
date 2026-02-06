@@ -1,0 +1,17 @@
+[
+  {
+    "ID": "a8e4f9c1-1234-5678-9abc-def012345678",
+    "name": "Jane Austen",
+    "country": "GB"
+  },
+  {
+    "ID": "b7d3e8b2-2345-6789-abcd-ef0123456789",
+    "name": "George Orwell",
+    "country": "GB"
+  },
+  {
+    "ID": "c6c2d7a3-3456-789a-bcde-f01234567890",
+    "name": "Ernest Hemingway",
+    "country": "US"
+  }
+]

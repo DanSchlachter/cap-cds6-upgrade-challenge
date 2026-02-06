@@ -1,0 +1,42 @@
+{
+  "name": "upgradeapp",
+  "version": "1.0.0",
+  "description": "SAP CAP Application with CDS 6 - Contains patterns that are difficult to upgrade to CDS 7/8/9",
+  "main": "server.js",
+  "scripts": {
+    "start": "cds run",
+    "watch": "cds watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "CAP",
+    "CDS6",
+    "SAP"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sap/cds": "^6.8.4",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@sap/cds-dk": "^6.8.3",
+    "sqlite3": "^5.1.7"
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "sqlite",
+        "credentials": {
+          "database": "db.sqlite"
+        }
+      }
+    },
+    "features": {
+      "odata_new_adapter": false
+    },
+    "sql": {
+      "native_hana_associations": true
+    }
+  }
+}
