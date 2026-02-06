@@ -7,12 +7,12 @@
     "start": "cds run",
     "watch": "cds watch",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "test:cds7": "npx --package=@sap/cds@^7.0.0 --yes cds watch",
-    "test:cds8": "npx --package=@sap/cds@^8.0.0 --yes cds watch",
-    "test:cds9": "npx --package=@sap/cds@^9.0.0 --yes cds watch",
-    "compile:cds7": "npx --package=@sap/cds@^7.0.0 --yes cds compile srv",
-    "compile:cds8": "npx --package=@sap/cds@^8.0.0 --yes cds compile srv",
-    "compile:cds9": "npx --package=@sap/cds@^9.0.0 --yes cds compile srv"
+    "test:cds7": "npx -y -p @sap/cds@^7.0.0 cds watch",
+    "test:cds8": "npx -y -p @sap/cds@^8.0.0 cds watch",
+    "test:cds9": "npx -y -p @sap/cds@^9.0.0 cds watch",
+    "compile:cds7": "npx -y -p @sap/cds@^7.0.0 cds compile srv",
+    "compile:cds8": "npx -y -p @sap/cds@^8.0.0 cds compile srv",
+    "compile:cds9": "npx -y -p @sap/cds@^9.0.0 cds compile srv"
   },
   "keywords": [
     "CAP",

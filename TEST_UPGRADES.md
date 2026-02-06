@@ -32,11 +32,11 @@ npm run compile:cds9
 
 These npm scripts use `npx` to temporarily download and run specific CDS versions **without modifying your local `node_modules`** or `package.json`.
 
-- `npx --package=@sap/cds@^7.0.0 --yes cds watch` - Runs the latest CDS 7.x version
-- `npx --package=@sap/cds@^8.0.0 --yes cds watch` - Runs the latest CDS 8.x version
-- `npx --package=@sap/cds@^9.0.0 --yes cds watch` - Runs the latest CDS 9.x version
+- `npx -y -p @sap/cds@^7.0.0 cds watch` - Runs the latest CDS 7.x version
+- `npx -y -p @sap/cds@^8.0.0 cds watch` - Runs the latest CDS 8.x version
+- `npx -y -p @sap/cds@^9.0.0 cds watch` - Runs the latest CDS 9.x version
 
-The `--yes` flag automatically accepts the npx prompt to download the package.
+The `-y` flag automatically accepts the download prompt, and `-p` specifies the package to install temporarily.
 
 ---
 
@@ -289,28 +289,28 @@ These commands will show compilation errors without starting the server, making 
 
 ### Check CDS Version Being Used
 ```bash
-npx --package=@sap/cds@^7.0.0 --yes cds --version
-npx --package=@sap/cds@^8.0.0 --yes cds --version
-npx --package=@sap/cds@^9.0.0 --yes cds --version
+npx -y -p @sap/cds@^7.0.0 cds --version
+npx -y -p @sap/cds@^8.0.0 cds --version
+npx -y -p @sap/cds@^9.0.0 cds --version
 ```
 
 ### View Detailed Compilation Output
 ```bash
-npx --package=@sap/cds@^9.0.0 --yes cds compile db/schema.cds --to sql
-npx --package=@sap/cds@^9.0.0 --yes cds compile srv --to edmx
+npx -y -p @sap/cds@^9.0.0 cds compile db/schema.cds --to sql
+npx -y -p @sap/cds@^9.0.0 cds compile srv --to edmx
 ```
 
 ### Check for Deprecated APIs
 ```bash
 # CDS 7 has a built-in linter
-npx --package=@sap/cds@^7.0.0 --yes cds lint
+npx -y -p @sap/cds@^7.0.0 cds lint
 ```
 
 ### Deploy to SQLite with Different Versions
 ```bash
-npx --package=@sap/cds@^7.0.0 --yes cds deploy --to sqlite
-npx --package=@sap/cds@^8.0.0 --yes cds deploy --to sqlite
-npx --package=@sap/cds@^9.0.0 --yes cds deploy --to sqlite
+npx -y -p @sap/cds@^7.0.0 cds deploy --to sqlite
+npx -y -p @sap/cds@^8.0.0 cds deploy --to sqlite
+npx -y -p @sap/cds@^9.0.0 cds deploy --to sqlite
 ```
 
 ---

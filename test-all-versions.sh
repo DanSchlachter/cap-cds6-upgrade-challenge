@@ -27,8 +27,8 @@ echo ""
 
 # Test CDS 7
 echo -e "${YELLOW}Testing CDS 7...${NC}"
-echo "Command: npx --package=@sap/cds@^7.0.0 --yes cds compile srv"
-npx --package=@sap/cds@^7.0.0 --yes cds compile srv > /tmp/cds7-output.txt 2>&1
+echo "Command: npx -y -p @sap/cds@^7.0.0 cds compile srv"
+npx -y -p @sap/cds@^7.0.0 cds compile srv > /tmp/cds7-output.txt 2>&1
 if [ $? -eq 0 ]; then
     echo -e "${YELLOW}⚠️  CDS 7: Compilation successful (may have warnings)${NC}"
     if grep -q "deprecat\|warning" /tmp/cds7-output.txt; then
@@ -43,8 +43,8 @@ echo ""
 
 # Test CDS 8
 echo -e "${YELLOW}Testing CDS 8...${NC}"
-echo "Command: npx --package=@sap/cds@^8.0.0 --yes cds compile srv"
-npx --package=@sap/cds@^8.0.0 --yes cds compile srv > /tmp/cds8-output.txt 2>&1
+echo "Command: npx -y -p @sap/cds@^8.0.0 cds compile srv"
+npx -y -p @sap/cds@^8.0.0 cds compile srv > /tmp/cds8-output.txt 2>&1
 if [ $? -eq 0 ]; then
     echo -e "${YELLOW}⚠️  CDS 8: Compilation successful (may have warnings)${NC}"
     if grep -q "deprecat\|warning" /tmp/cds8-output.txt; then
@@ -59,8 +59,8 @@ echo ""
 
 # Test CDS 9
 echo -e "${YELLOW}Testing CDS 9...${NC}"
-echo "Command: npx --package=@sap/cds@^9.0.0 --yes cds compile srv"
-npx --package=@sap/cds@^9.0.0 --yes cds compile srv > /tmp/cds9-output.txt 2>&1
+echo "Command: npx -y -p @sap/cds@^9.0.0 cds compile srv"
+npx -y -p @sap/cds@^9.0.0 cds compile srv > /tmp/cds9-output.txt 2>&1
 if [ $? -eq 0 ]; then
     echo -e "${YELLOW}⚠️  CDS 9: Compilation successful (may have warnings)${NC}"
     if grep -q "deprecat\|warning" /tmp/cds9-output.txt; then
