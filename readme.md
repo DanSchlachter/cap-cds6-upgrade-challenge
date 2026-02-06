@@ -96,7 +96,13 @@ npx cds deploy --to sqlite
 
 ## Documented Upgrade Issues
 
-See **[UPGRADE_ISSUES.md](./UPGRADE_ISSUES.md)** for a comprehensive list of **56 documented issues** organized by:
+This project includes comprehensive documentation for upgrading across CDS versions:
+
+- **[UPGRADE_ISSUES.md](./UPGRADE_ISSUES.md)** - 56 documented issues for CDS 6→7/8/9
+- **[UPGRADE_ISSUES_CDS6_TO_7.md](./UPGRADE_ISSUES_CDS6_TO_7.md)** - 38 issues specifically for CDS 6→7
+- **[TEST_UPGRADES.md](./TEST_UPGRADES.md)** - Testing guide with npm scripts for CDS 7/8/9
+
+Each document includes:
 - Location in code
 - CDS version impact
 - Severity (HIGH/MEDIUM/LOW)
@@ -150,10 +156,26 @@ See **[UPGRADE_ISSUES.md](./UPGRADE_ISSUES.md)** for a comprehensive list of **5
 
 ## Testing the Application
 
-### Run Tests (if implemented)
+### Run with CDS 6 (Current Version - Works ✅)
 ```bash
-npm test
+npm run watch
 ```
+
+### Test Upgrades (Will Show Errors ❌)
+```bash
+npm run test:cds7    # Test with CDS 7 (warnings expected)
+npm run test:cds8    # Test with CDS 8 (errors expected)
+npm run test:cds9    # Test with CDS 9 (compilation fails)
+```
+
+### Compile Only (Faster Feedback)
+```bash
+npm run compile:cds7    # Compile with CDS 7
+npm run compile:cds8    # Compile with CDS 8
+npm run compile:cds9    # Compile with CDS 9
+```
+
+**See [TEST_UPGRADES.md](./TEST_UPGRADES.md) for detailed testing instructions and expected results.**
 
 ### Manual Testing Checklist
 - [ ] All CQL queries with associations
