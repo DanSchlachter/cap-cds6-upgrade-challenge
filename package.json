@@ -6,7 +6,9 @@
   "scripts": {
     "start": "cds run",
     "watch": "cds watch",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --runInBand --detectOpenHandles",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
     "test:cds7": "npx -y -p @sap/cds@^7.0.0 cds watch",
     "test:cds8": "npx -y -p @sap/cds@^8.0.0 cds watch",
     "test:cds9": "npx -y -p @sap/cds@^9.0.0 cds watch",
@@ -27,7 +29,10 @@
   },
   "devDependencies": {
     "@sap/cds-dk": "^6.8.3",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.4",
+    "axios": "^1.6.7"
   },
   "cds": {
     "requires": {
@@ -44,5 +49,17 @@
     "sql": {
       "native_hana_associations": true
     }
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testTimeout": 30000,
+    "coverageDirectory": "coverage",
+    "collectCoverageFrom": [
+      "srv/**/*.js",
+      "!srv/**/*.test.js"
+    ],
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ]
   }
 }

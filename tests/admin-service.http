@@ -1,0 +1,238 @@
+# Admin Service - Administrative Operations
+# Test file for AdminService endpoints (requires admin role)
+
+### Variables
+@host = http://localhost:4004
+@adminPath = {{host}}/admin
+
+################################################################################
+# Admin - Authors
+################################################################################
+
+### Get all Authors (admin view)
+GET {{adminPath}}/Authors HTTP/1.1
+Authorization: Basic admin:admin
+
+### Get Author with metadata
+GET {{adminPath}}/Authors?$select=ID,name,country,createdAt,createdBy,modifiedAt,modifiedBy HTTP/1.1
+Authorization: Basic admin:admin
+
+### Create Author with admin tracking
+POST {{adminPath}}/Authors HTTP/1.1
+Content-Type: application/json
+Authorization: Basic admin:admin
+
+{
+  "name": "Admin Created Author",
+  "country": "UK"
+}
+
+### Update Author
+PATCH {{adminPath}}/Authors(a1b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d) HTTP/1.1
+Content-Type: application/json
+Authorization: Basic admin:admin
+
+{
+  "country": "CA"
+}
+
+### Delete Author (admin only)
+DELETE {{adminPath}}/Authors(a1b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d) HTTP/1.1
+Authorization: Basic admin:admin
+
+################################################################################
+# Admin - Books
+################################################################################
+
+### Get all Books (admin view with full details)
+GET {{adminPath}}/Books HTTP/1.1
+Authorization: Basic admin:admin
+
+### Get Books with author and reviews
+GET {{adminPath}}/Books?$expand=author,reviews HTTP/1.1
+Authorization: Basic admin:admin
+
+### Update Book price (admin only)
+PATCH {{adminPath}}/Books(9d703c93-04ff-4be0-a292-599c1b8c5e1d) HTTP/1.1
+Content-Type: application/json
+Authorization: Basic admin:admin
+
+{
+  "price": 29.99,
+  "stock": 100
+}
+
+### Update Book stock
+PATCH {{adminPath}}/Books(9d703c93-04ff-4be0-a292-599c1b8c5e1d) HTTP/1.1
+Content-Type: application/json
+Authorization: Basic admin:admin
+
+{
+  "stock": 50
+}
+
+### Delete Book (admin only)
+DELETE {{adminPath}}/Books(9d703c93-04ff-4be0-a292-599c1b8c5e1d) HTTP/1.1
+Authorization: Basic admin:admin
+
+################################################################################
+# Admin - Reviews
+################################################################################
+
+### Get all Reviews (admin view)
+GET {{adminPath}}/Reviews HTTP/1.1
+Authorization: Basic admin:admin
+
+### Get Reviews with full metadata
+GET {{adminPath}}/Reviews?$select=ID,rating,comment,reviewer,createdAt,createdBy HTTP/1.1
+Authorization: Basic admin:admin
+
+### Moderate Review (update)
+PATCH {{adminPath}}/Reviews(review-id-here) HTTP/1.1
+Content-Type: application/json
+Authorization: Basic admin:admin
+
+{
+  "comment": "Moderated content"
+}
+
+### Delete Review (admin moderation)
+DELETE {{adminPath}}/Reviews(review-id-here) HTTP/1.1
+Authorization: Basic admin:admin
+
+################################################################################
+# Admin - Orders
+################################################################################
+
+### Get all Orders (admin view)
+GET {{adminPath}}/Orders HTTP/1.1
+Authorization: Basic admin:admin
+
+### Get Orders with all details
+GET {{adminPath}}/Orders?$expand=items HTTP/1.1
+Authorization: Basic admin:admin
+
+### Filter Orders by status (admin monitoring)
+GET {{adminPath}}/Orders?$filter=status eq 'open' HTTP/1.1
+Authorization: Basic admin:admin
+
+### Update Order status (admin override)
+PATCH {{adminPath}}/Orders(550e8400-e29b-41d4-a716-446655440000) HTTP/1.1
+Content-Type: application/json
+Authorization: Basic admin:admin
+
+{
+  "status": "cancelled"
+}
+
+### Delete Order (admin only)
+DELETE {{adminPath}}/Orders(550e8400-e29b-41d4-a716-446655440000) HTTP/1.1
+Authorization: Basic admin:admin
+
+################################################################################
+# Admin - Products & Categories
+################################################################################
+
+### Get all Products (admin view)
+GET {{adminPath}}/Products HTTP/1.1
+Authorization: Basic admin:admin
+
+### Create new Product
+POST {{adminPath}}/Products HTTP/1.1
+Content-Type: application/json
+Authorization: Basic admin:admin
+
+{
+  "name": "New Product",
+  "price": 49.99
+}
+
+### Get all Categories (admin view)
+GET {{adminPath}}/Categories HTTP/1.1
+Authorization: Basic admin:admin
+
+### Create new Category
+POST {{adminPath}}/Categories HTTP/1.1
+Content-Type: application/json
+Authorization: Basic admin:admin
+
+{
+  "name": "New Category",
+  "description": "Category description"
+}
+
+################################################################################
+# Test Deprecated APIs (will fail in CDS 8/9)
+################################################################################
+
+### Test srv.with() usage (removed in CDS 8)
+# Any request to AdminService will trigger handler registration
+# This will fail in CDS 8+ because admin-service.js uses srv.with()
+GET {{adminPath}}/Books HTTP/1.1
+Authorization: Basic admin:admin
+
+################################################################################
+# Authorization Tests
+################################################################################
+
+### Unauthorized access (no auth header) - should fail with 401
+GET {{adminPath}}/Authors HTTP/1.1
+
+### Insufficient privileges (non-admin user) - should fail with 403
+GET {{adminPath}}/Authors HTTP/1.1
+Authorization: Basic user:user
+
+### Admin access - should succeed
+GET {{adminPath}}/Authors HTTP/1.1
+Authorization: Basic admin:admin
+
+################################################################################
+# Bulk Operations (Admin Only)
+################################################################################
+
+### Get all entities count
+GET {{adminPath}}/Books/$count HTTP/1.1
+Authorization: Basic admin:admin
+
+### Get Authors count
+GET {{adminPath}}/Authors/$count HTTP/1.1
+Authorization: Basic admin:admin
+
+### Get Orders count
+GET {{adminPath}}/Orders/$count HTTP/1.1
+Authorization: Basic admin:admin
+
+### Get Reviews count
+GET {{adminPath}}/Reviews/$count HTTP/1.1
+Authorization: Basic admin:admin
+
+################################################################################
+# Metadata
+################################################################################
+
+### Get Admin Service metadata
+GET {{adminPath}}/$metadata HTTP/1.1
+
+### Get Admin Service document
+GET {{adminPath}} HTTP/1.1
+
+################################################################################
+# Error Cases
+################################################################################
+
+### Forbidden operation (non-admin trying to delete)
+DELETE {{adminPath}}/Books(9d703c93-04ff-4be0-a292-599c1b8c5e1d) HTTP/1.1
+Authorization: Basic user:user
+
+### Invalid admin credentials
+GET {{adminPath}}/Authors HTTP/1.1
+Authorization: Basic wrong:credentials
+
+### Missing authorization header
+POST {{adminPath}}/Authors HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Unauthorized Author",
+  "country": "US"
+}

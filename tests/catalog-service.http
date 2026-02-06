@@ -1,0 +1,156 @@
+# Catalog Service - Books and Authors
+# Test file for CatalogService endpoints
+
+### Variables
+@host = http://localhost:4004
+@catalogPath = {{host}}/catalog
+
+################################################################################
+# Books
+################################################################################
+
+### Get all Books
+GET {{catalogPath}}/Books HTTP/1.1
+
+### Get Books with specific fields
+GET {{catalogPath}}/Books?$select=ID,title,price,stock HTTP/1.1
+
+### Get a specific Book by ID
+GET {{catalogPath}}/Books(9d703c93-04ff-4be0-a292-599c1b8c5e1d) HTTP/1.1
+
+### Get Books with Author (expand association)
+GET {{catalogPath}}/Books?$expand=author HTTP/1.1
+
+### Get Books with Reviews (expand association)
+GET {{catalogPath}}/Books?$expand=reviews HTTP/1.1
+
+### Filter Books by price
+GET {{catalogPath}}/Books?$filter=price gt 20 HTTP/1.1
+
+### Filter Books by stock
+GET {{catalogPath}}/Books?$filter=stock gt 10 HTTP/1.1
+
+### Search Books by title
+GET {{catalogPath}}/Books?$filter=contains(title,'Node') HTTP/1.1
+
+### Order Books by price
+GET {{catalogPath}}/Books?$orderby=price desc HTTP/1.1
+
+### Get Books with pagination
+GET {{catalogPath}}/Books?$top=5&$skip=0 HTTP/1.1
+
+### Count Books
+GET {{catalogPath}}/Books/$count HTTP/1.1
+
+################################################################################
+# Authors
+################################################################################
+
+### Get all Authors
+GET {{catalogPath}}/Authors HTTP/1.1
+
+### Get a specific Author by ID
+GET {{catalogPath}}/Authors(a1b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d) HTTP/1.1
+
+### Get Authors with Books (expand association)
+# NOTE: This will fail in CDS 9 - Association without ON condition!
+GET {{catalogPath}}/Authors?$expand=books HTTP/1.1
+
+### Filter Authors by country
+GET {{catalogPath}}/Authors?$filter=country eq 'US' HTTP/1.1
+
+### Create a new Author (requires authentication)
+POST {{catalogPath}}/Authors HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Test Author",
+  "country": "US"
+}
+
+### Update an Author
+PATCH {{catalogPath}}/Authors(a1b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d) HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Updated Author Name"
+}
+
+### Delete an Author
+DELETE {{catalogPath}}/Authors(a1b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d) HTTP/1.1
+
+################################################################################
+# Reviews
+################################################################################
+
+### Get all Reviews
+GET {{catalogPath}}/Reviews HTTP/1.1
+
+### Get Reviews for a specific Book
+GET {{catalogPath}}/Reviews?$filter=book_ID eq 9d703c93-04ff-4be0-a292-599c1b8c5e1d HTTP/1.1
+
+### Get Reviews with Book info (expand)
+GET {{catalogPath}}/Reviews?$expand=book HTTP/1.1
+
+### Create a new Review (will test INSERT.as() - removed in CDS 8!)
+POST {{catalogPath}}/Reviews HTTP/1.1
+Content-Type: application/json
+
+{
+  "book_ID": "9d703c93-04ff-4be0-a292-599c1b8c5e1d",
+  "rating": 5,
+  "comment": "Excellent book!",
+  "reviewer": "John Doe"
+}
+
+### Filter Reviews by rating
+GET {{catalogPath}}/Reviews?$filter=rating ge 4 HTTP/1.1
+
+### Order Reviews by date
+GET {{catalogPath}}/Reviews?$orderby=createdAt desc HTTP/1.1
+
+################################################################################
+# Products & Categories
+################################################################################
+
+### Get all Products
+GET {{catalogPath}}/Products HTTP/1.1
+
+### Get Products with Category (association without ON - breaks in CDS 9!)
+GET {{catalogPath}}/Products?$expand=category HTTP/1.1
+
+### Get all Categories
+GET {{catalogPath}}/Categories HTTP/1.1
+
+### Get Categories with Products (association without ON - breaks in CDS 9!)
+GET {{catalogPath}}/Categories?$expand=products HTTP/1.1
+
+################################################################################
+# Test Deprecated APIs (will fail in CDS 8/9)
+################################################################################
+
+### Test req.user.locale (removed in CDS 9)
+# This request will trigger the handler that uses req.user.locale
+GET {{catalogPath}}/Books HTTP/1.1
+Accept-Language: de-DE
+
+### Test req.user.tenant (removed in CDS 9)
+# This request will trigger the handler that uses req.user.tenant
+GET {{catalogPath}}/Books HTTP/1.1
+X-Tenant-Id: test-tenant
+
+################################################################################
+# Error Cases
+################################################################################
+
+### Get non-existent Book (404)
+GET {{catalogPath}}/Books(00000000-0000-0000-0000-000000000000) HTTP/1.1
+
+### Invalid filter syntax (400)
+GET {{catalogPath}}/Books?$filter=invalid syntax HTTP/1.1
+
+### Invalid field name (400)
+GET {{catalogPath}}/Books?$select=nonExistentField HTTP/1.1
+
+### Invalid expand (400)
+GET {{catalogPath}}/Books?$expand=nonExistentAssociation HTTP/1.1
