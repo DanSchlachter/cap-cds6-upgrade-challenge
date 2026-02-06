@@ -21,16 +21,28 @@ This application is designed to be **difficult to upgrade** and serves as a lear
 ```
 upgradeApp/
 ├── db/
-│   ├── schema.cds          # Data model with problematic patterns
-│   └── data/               # Initial test data
+│   ├── schema.cds              # Data model with problematic patterns
+│   └── data/                   # Initial test data
 ├── srv/
-│   ├── catalog-service.cds # Service definitions
-│   ├── catalog-service.js  # Handlers with deprecated APIs
-│   ├── order-service.js    # Draft & temporal patterns
-│   └── admin-service.js    # Admin operations
-├── package.json            # CDS 6 dependencies
-├── UPGRADE_ISSUES.md       # Comprehensive upgrade documentation (56 issues)
-└── readme.md               # This file
+│   ├── catalog-service.cds     # Service definitions
+│   ├── catalog-service.js      # Handlers with deprecated APIs
+│   ├── order-service.js        # Draft & temporal patterns
+│   └── admin-service.js        # Admin operations
+├── tests/
+│   ├── catalog-service.http    # HTTP test requests
+│   ├── catalog-service.test.js # Jest automated tests
+│   ├── order-service.http      # HTTP test requests
+│   ├── order-service.test.js   # Jest automated tests
+│   ├── admin-service.http      # HTTP test requests
+│   ├── admin-service.test.js   # Jest automated tests
+│   └── README.md               # Testing documentation
+├── package.json                # CDS 6 dependencies
+├── UPGRADE_ISSUES.md           # 56 issues for CDS 6→7/8/9
+├── UPGRADE_ISSUES_CDS6_TO_7.md # 38 issues for CDS 6→7
+├── TEST_UPGRADES.md            # Testing guide
+├── CDS9_CRASH_ANALYSIS.md      # Server crash analysis
+├── WHY_NO_ERRORS.md            # Runtime vs compilation errors
+└── readme.md                   # This file
 ```
 
 ## Key Problematic Patterns
@@ -156,6 +168,24 @@ Each document includes:
 
 ## Testing the Application
 
+### Automated Test Suite
+
+Run the comprehensive test suite:
+```bash
+npm test                    # Run all Jest tests
+npm run test:watch          # Run tests in watch mode
+npm run test:coverage       # Run tests with coverage report
+```
+
+**See [tests/README.md](./tests/README.md) for complete testing documentation.**
+
+#### Test Coverage
+- **3 HTTP files** with 155+ manual test requests
+- **3 Jest test files** with 65+ automated test cases
+- Tests for all services: Catalog, Order, Admin
+- Tests for deprecated APIs and upgrade issues
+- CI/CD ready
+
 ### Run with CDS 6 (Current Version - Works ✅)
 ```bash
 npm run watch
@@ -164,8 +194,8 @@ npm run watch
 ### Test Upgrades (Will Show Errors ❌)
 ```bash
 npm run test:cds7    # Test with CDS 7 (warnings expected)
-npm run test:cds8    # Test with CDS 8 (errors expected)
-npm run test:cds9    # Test with CDS 9 (compilation fails)
+npm run test:cds8    # Test with CDS 8 (server crashes)
+npm run test:cds9    # Test with CDS 9 (server crashes)
 ```
 
 ### Compile Only (Faster Feedback)
@@ -176,6 +206,19 @@ npm run compile:cds9    # Compile with CDS 9
 ```
 
 **See [TEST_UPGRADES.md](./TEST_UPGRADES.md) for detailed testing instructions and expected results.**
+
+### HTTP Tests (Manual Testing)
+
+Use VS Code REST Client extension to execute HTTP requests:
+
+1. Install REST Client extension: `ext install humao.rest-client`
+2. Open any `.http` file in `tests/` directory
+3. Click "Send Request" above any request
+
+Files:
+- `tests/catalog-service.http` - 60+ requests for Books, Authors, Reviews
+- `tests/order-service.http` - 50+ requests for Orders, Draft operations
+- `tests/admin-service.http` - 45+ requests for admin operations
 
 ### Manual Testing Checklist
 - [ ] All CQL queries with associations
